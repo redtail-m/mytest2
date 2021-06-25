@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>案例</title>
+    <script src="js/axios-0.18.0.js"></script>
+    <script src="js/vuejs-2.5.16.js"></script>
+</head>
+<body>
+    <div id="app">
+        <select>
+            <option>请选择省份</option>
+            <option v-for="(province,index) in provinceList" v-text="province.pname"></option>
+        </select>
+    </div>
+
+    <script>
+        var vue = new Vue({
+
+            el:"#app",
+
+            data:{
+
+                provinceList:[]
+            },
+
+            methods:{
+
+                findAll(){
+
+                    axios.post("/province?action=findAll").then(response=>{
+
+                        if(response.data.flag){
+
+                            this.provinceList = response.data.data;
+                        }else{
+
+                            alert(response.data.errorMsg);
+                        }
+                    })
+                }
+            },
+
+            created(){
+
+                this.findAll();
+            }
+        });
+    </script>
+</body>
+</html>
